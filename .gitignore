@@ -54,3 +54,6 @@ compile_commands.json
 *_qmlcache.qrc
 
 .idea
+
+# for my mac user
+**/.DS_Store
