@@ -4,7 +4,6 @@ ARG APP_EXECUTABLE=dimos
 ARG IMAGE_ARCH=arm64
 ARG GPU=-vivante
 
-
 # BUILD ------------------------------------------------------------------------
 FROM --platform=linux/${IMAGE_ARCH} \
     torizon/wayland-base${GPU}:${SDK_BASE_VERSION} AS Build
@@ -20,23 +19,26 @@ RUN apt-get -q -y update && \
     apt-get -q -y install \
     build-essential \
     qmake6 \
+    libgl-dev \
+    libgl1 \
     qt6-base-private-dev \
     qt6-base-dev \
     qt6-declarative-dev \
     qt6-declarative-private-dev \
     libqt6opengl6-dev  \
-    cmake \
-    && \
+    cmake && \
     apt-get clean && apt-get autoremove && \
     rm -rf /var/lib/apt/lists/*
 
 COPY . /app
 WORKDIR /app
 
-RUN qmake6 -o build/Makefile && \
-    cd build && \
-    make
+#RUN qmake6 -o build/Makefile && \
+#    cd build && \
+#    make
 
+RUN cmake -DCMAKE_BUILD_TYPE=Debug -G 'Unix Makefiles' -S . -B ./build
+RUN cmake --build ./build --target Qt-Demo -- -j 14
 
 # Deploy ------------------------------------------------------------------------
 ##
@@ -103,6 +105,6 @@ RUN apt-get -q -y update && \
 
 COPY --from=Build /app/build /app
 USER torizon
-WORKDIR /app/debug
+WORKDIR /app
 
-CMD [ "./dimos" ]
+CMD [ "./Qt-Demo" ]
