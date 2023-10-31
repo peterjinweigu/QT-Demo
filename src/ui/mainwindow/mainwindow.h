@@ -16,10 +16,6 @@ public:
 
 	~MainWindow() override;
 
-	static void CanRX();
-
-	static void CanTX();
-
 private:
 	std::unique_ptr<Ui::MainWindow> ui;
 };
