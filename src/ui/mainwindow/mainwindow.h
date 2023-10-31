@@ -21,8 +21,7 @@ public:
 	static void CanTX();
 
 private:
-	Ui::MainWindow *ui;
-	QTimer *canRXTimer = new QTimer(this), *canTXTimer = new QTimer(this);
+	std::unique_ptr<Ui::MainWindow> ui;
 };
 
 #endif // MAINWINDOW_H
