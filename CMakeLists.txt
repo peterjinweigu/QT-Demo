@@ -15,16 +15,23 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Core Gui QuickWid
 
 # todo use file glob to autodetect new files
 set(PROJECT_SOURCES
-        ui/main.cpp
-        ui/mainwindow/mainwindow.cpp
-        ui/mainwindow/mainwindow.h
-        ui/mainwindow/mainwindow.ui
+        src/ui/main.cpp
+        src/ui/mainwindow/mainwindow.cpp
+        src/ui/mainwindow/mainwindow.h
+        src/ui/mainwindow/mainwindow.ui
+        src/shared/types.cpp src/shared/types.h
 )
+
+set(IO_Headers src/io/can.h)
+set(IO_Sources src/io/can.cpp)
+set(MockIO_Sources src/mock_io/can.cpp)
 
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(Qt-Demo
             MANUAL_FINALIZATION
             ${PROJECT_SOURCES}
+            ${IO_Headers}
+            ${IO_Sources}
     )
     # Define target properties for Android with Qt 6 as:
     #    set_property(TARGET Qt-Demo APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
